@@ -2,38 +2,41 @@
 import { Model, DataTypes } from 'sequelize';
 import { db } from '../db';
 
-enum Shift {
-  day = 'DAY shift',
-  night = 'NIGHT shift'
+export enum Shift {
+  day = 'DAY',
+  night = 'NIGHT'
+}
+export enum Days {
+  monday= 'MONDAY',
+  tuesday = 'TUESDAY',
+  wednesday = 'WEDNESDAY',
+  thursday = 'THURSDAY',
+  friday = 'FRIDAY',
+  saturday = 'SATURDAY',
+  sunday = 'SUNDAY',
 }
 
-interface ISchedule {
+export interface ISchedule {
   id: number
-  monday: Shift | null
-  tuesday: Shift | null
-  wednesday: Shift | null
-  thursday: Shift | null
-  friday: Shift | null
-  saturday: Shift | null
-  sunday: Shift | null
+  supermarket_id: number
+  cashier_id: number
+  cashbox_number: number
+  day: Days
+  shift: Shift
 }
 
 export default class Schedule extends Model implements ISchedule {
   public id!: number;
 
-  public monday!: Shift | null;
+  public supermarket_id!: number;
 
-  public thursday!: Shift | null;
+  public cashier_id!: number;
 
-  public wednesday!: Shift | null;
+  public cashbox_number!: number;
 
-  public tuesday!: Shift | null;
+  public day!: Days;
 
-  public friday!: Shift | null;
-
-  public saturday!: Shift | null;
-
-  public sunday!: Shift | null;
+  public shift!: Shift;
 }
 
 Schedule.init({
@@ -43,38 +46,21 @@ Schedule.init({
     autoIncrement: true,
     allowNull: false,
   },
-  monday: {
-    type: DataTypes.STRING,
-    defaultValue: null,
-    allowNull: true,
+  cashbox_number: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
-  wednesday: {
+  day: {
     type: DataTypes.STRING,
-    defaultValue: null,
-    allowNull: true,
+    allowNull: false,
   },
-  tuesday: {
+  shift: {
     type: DataTypes.STRING,
-    defaultValue: null,
-    allowNull: true,
-  },
-  friday: {
-    type: DataTypes.STRING,
-    defaultValue: null,
-    allowNull: true,
-  },
-  saturday: {
-    type: DataTypes.STRING,
-    defaultValue: null,
-    allowNull: true,
-  },
-  sunday: {
-    type: DataTypes.STRING,
-    defaultValue: null,
-    allowNull: true,
+    allowNull: false,
   },
 }, {
   sequelize: db,
   tableName: 'schedules',
   timestamps: false,
+  underscored: true,
 });
