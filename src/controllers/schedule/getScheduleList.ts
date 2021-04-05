@@ -6,7 +6,7 @@ export default async (req: Request, res: Response): Promise<void> => {
   // Возвращает список смены ТОЛЬКО ПО ДАННОМУ супермаркету, не вижу смысла
   // возвращать весь список пока что
   try {
-    const query = await Cashier.findOne({
+    const schedules = await Cashier.findOne({
       where: {
         id: req.params.cashier_id,
       },
@@ -20,7 +20,7 @@ export default async (req: Request, res: Response): Promise<void> => {
       ],
     });
     res.json({
-      query: query?.get('Schedules'),
+      schedules: schedules?.get('Schedules'),
     });
   } catch (error) {
     res.status(500).json({
