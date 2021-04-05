@@ -1,31 +1,29 @@
 /* eslint-disable camelcase */
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, HasMany } from 'sequelize';
 import { db } from '../db';
 import Schedule from './schedule';
-import Supermarket from './supermarket';
 
-enum Sex {
+export enum Sex {
   male = 'MALE',
   female = 'FEMALE'
 }
 
-interface ICashier {
-  id: number
+export interface ICashier {
+  id?: number
   supermarket_id: number
   first_name: string
   last_name: string
   sex: Sex
   age: number
-  cashier_number: number
-  schedule_id: number
+  schedule_id?: number
+  work_experience: number
+  previous_job: string
 }
 
 export default class Cashier extends Model implements ICashier {
   public id!: number;
 
   public age!: number;
-
-  public cashier_number!: number;
 
   public first_name!: string;
 
@@ -36,6 +34,12 @@ export default class Cashier extends Model implements ICashier {
   public sex!: Sex;
 
   public supermarket_id!: number;
+
+  public work_experience!: number;
+
+  public previous_job!: string;
+
+  static Schedule: HasMany<Cashier, Schedule>;
 }
 
 Cashier.init({
@@ -53,37 +57,27 @@ Cashier.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
-  supermarket_id: {
-    type: DataTypes.NUMBER,
-    allowNull: false,
-    references: {
-      model: Supermarket,
-      key: 'id',
-    },
-  },
   sex: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   age: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  cashier_number: {
-    type: DataTypes.NUMBER,
+  work_experience: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  schedule_id: {
-    type: DataTypes.NUMBER,
-    allowNull: false,
-    references: {
-      model: Schedule,
-      key: 'id',
-    },
+  previous_job: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
-
 }, {
   sequelize: db,
   tableName: 'cashiers',
   timestamps: false,
+  underscored: true,
 });
+
+Cashier.Schedule = Cashier.hasMany(Schedule, { foreignKey: 'cashier_id' });
