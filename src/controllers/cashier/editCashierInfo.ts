@@ -8,6 +8,7 @@ export default async (req: Request, res: Response): Promise<void> => {
       where: {
         ...req.params,
       },
+      returning: true,
     };
     const cashier = await Cashier.update(
       req.body,
@@ -20,7 +21,7 @@ export default async (req: Request, res: Response): Promise<void> => {
       });
     } else {
       res.status(200).json({
-        cashier: cashier[1],
+        cashier: cashier[1][0],
       });
     }
   } catch (error) {

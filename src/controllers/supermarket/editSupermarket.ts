@@ -18,7 +18,7 @@ export default async (req: Request, res: Response): Promise<void> => {
       });
     } else {
       res.status(200).json({
-        supermarket: supermarket[1],
+        supermarket: supermarket[1][0],
       });
     }
   } catch (error) {
