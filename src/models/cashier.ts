@@ -3,17 +3,11 @@ import { Model, DataTypes, HasMany } from 'sequelize';
 import { db } from '../db';
 import Schedule from './schedule';
 
-export enum Sex {
-  male = 'MALE',
-  female = 'FEMALE'
-}
-
 export interface ICashier {
   id?: number
   supermarket_id: number
   first_name: string
   last_name: string
-  sex: Sex
   age: number
   schedule_id?: number
   work_experience: number
@@ -30,8 +24,6 @@ export default class Cashier extends Model implements ICashier {
   public last_name!: string;
 
   public schedule_id!: number;
-
-  public sex!: Sex;
 
   public supermarket_id!: number;
 
@@ -54,10 +46,6 @@ Cashier.init({
     allowNull: false,
   },
   last_name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  sex: {
     type: DataTypes.STRING,
     allowNull: false,
   },
