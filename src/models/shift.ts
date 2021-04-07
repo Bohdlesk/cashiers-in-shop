@@ -25,6 +25,7 @@ Shift.init({
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
+    unique: true,
   },
 }, {
   sequelize: db,
