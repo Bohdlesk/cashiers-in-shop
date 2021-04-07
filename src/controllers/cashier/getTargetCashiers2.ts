@@ -3,7 +3,9 @@ import Sequelize, { Op } from 'sequelize';
 import Cashier from '../../models/cashier';
 import Supermarket from '../../models/supermarket';
 import { db } from '../../db';
-import Schedule, { Days, Shift } from '../../models/schedule';
+import Schedule from '../../models/schedule';
+import { Shifts } from '../../models/shift';
+import { Days } from '../../models/day';
 
 export default async (req: Request, res: Response): Promise<void> => {
   try {
@@ -45,7 +47,7 @@ export default async (req: Request, res: Response): Promise<void> => {
                   Sequelize.literal('cashbox_number % 2 != 0'),
                   {
                     day: Days.monday,
-                    shift: Shift.night,
+                    shift: Shifts.night,
                   },
                 ],
               },
