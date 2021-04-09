@@ -4,9 +4,10 @@ import { db } from '../db';
 
 export interface ISchedule {
   id: number
-  supermarket_id: number
   cashier_id: number
   cashbox_number: number
+  day: string
+  shift: string
 }
 
 export default class Schedule extends Model implements ISchedule {
@@ -17,6 +18,10 @@ export default class Schedule extends Model implements ISchedule {
   public cashier_id!: number;
 
   public cashbox_number!: number;
+
+  public day!: string;
+
+  public shift!: string;
 }
 
 Schedule.init({
