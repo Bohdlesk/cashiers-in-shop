@@ -17,26 +17,36 @@ app.use('/api/v1', apiRouterV1);
 async function connectAndSynchronize() {
   await connectToDataBase();
 
+  await Promise.all([
+    Gender.sync({ force: true }),
+    Shift.sync({ force: true }),
+    Day.sync({ force: true }),
+  ]);
+
   await Supermarket.sync({ force: true });
-  await Gender.sync({ force: true });
   await Cashier.sync({ force: true });
-  await Shift.sync({ force: true });
-  await Day.sync({ force: true });
   await Schedule.sync({ force: true });
 
-  await Gender.create({ sex: Sex.male });
-  await Gender.create({ sex: Sex.female });
+  await Promise.all([
+    Gender.create({ sex: Sex.male }),
+    Gender.create({ sex: Sex.female }),
 
-  await Shift.create({ shift: Shifts.day });
-  await Shift.create({ shift: Shifts.night });
+  ]);
 
-  await Day.create({ day: Days.monday });
-  await Day.create({ day: Days.tuesday });
-  await Day.create({ day: Days.wednesday });
-  await Day.create({ day: Days.thursday });
-  await Day.create({ day: Days.friday });
-  await Day.create({ day: Days.saturday });
-  await Day.create({ day: Days.sunday });
+  await Promise.all([
+    Shift.create({ shift: Shifts.day }),
+    Shift.create({ shift: Shifts.night }),
+  ]);
+
+  await Promise.all([
+    Day.create({ day: Days.monday }),
+    Day.create({ day: Days.tuesday }),
+    Day.create({ day: Days.wednesday }),
+    Day.create({ day: Days.thursday }),
+    Day.create({ day: Days.friday }),
+    Day.create({ day: Days.saturday }),
+    Day.create({ day: Days.sunday }),
+  ]);
 
   await Supermarket.create({
     address: 'Шевченка 100',
